@@ -3,19 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --color: lightgray;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+      --color: lightgray;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+    background: var(--color);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: gray;
+}
+
+a:hover {
+    color: cornflowerblue;
 }
