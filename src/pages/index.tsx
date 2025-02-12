@@ -3,19 +3,25 @@
 import {CheckCircleIcon} from '@heroicons/react/20/solid'
 import Footer from '@/components/Footer'
 import Banner from '@/components/Banner';
-
-const data_set = [
-  {
-    question: "Question 1",
-    answer: "Alpha Beta Charlie",
-  },
-  {
-    question: "Question 1",
-    answer: "Alpha Beta Charlie"
-  },
-]
+import {useEffect, useState} from "react";
 
 export default function Index() {
+  const [question, setQuestion] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/data");
+        const data = await response.json();
+        setQuestion(data.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="bg-gray-100">
       <Banner/>
@@ -52,13 +58,13 @@ export default function Index() {
         <div className="mx-auto max-w-3xl">
           {/* Question and Answers */}
           <ul role="list" className="divide-y divide-gray-200">
-            {data_set.map((item) => (
-              <li key={item.question} className="py-6">
+            {question.map((data: { question: string; answer: string }) => (
+              <li key={data.question} className="py-6">
                 <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
                   <div className="px-4 py-5 sm:px-6">
-                    <strong>Question: {item.question}</strong></div>
+                    <strong>Question: {data.question}</strong></div>
                   <div className="px-4 py-5 sm:p-6">
-                    {item.answer}</div>
+                    {data.answer}</div>
                 </div>
               </li>
             ))}
