@@ -1,16 +1,25 @@
 'use client'
 
 import DashFrame from "@/components/DashFrame";
-
-const data_set = [
-  {
-    id: "1",
-    question: "Question 1",
-    answer: "alpha beta delta",
-  },
-]
+import {useEffect, useState} from "react";
 
 export default function Questions() {
+  const [question, setQuestion] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/data");
+        const data = await response.json();
+        setQuestion(data.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <DashFrame>
       <div className="px-4 sm:px-6 lg:px-8">
@@ -49,15 +58,15 @@ export default function Questions() {
                   </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                  {data_set.map((item) => (
-                    <tr key={item.id}>
+                  {question.map((data: { id: number; question: string; answer: string }) => (
+                    <tr key={data.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        {item.question}
+                        {data.question}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.answer}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{data.answer}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit<span className="sr-only">, {item.question}</span>
+                          Edit<span className="sr-only">, {data.question}</span>
                         </a>
                       </td>
                     </tr>
