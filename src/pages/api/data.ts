@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import pool from "@/lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  // GET DATA
+    // GET DATA
   if (req.method === "GET") {
     try {
       // const the data data
@@ -18,14 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // POST DATA
   }  else if (req.method === "POST") {
     try {
-      const { question } = req.body;
+      const { question, answer } = req.body;
 
       if (!question) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const query = "INSERT INTO anonymous (question) VALUE (?)"
-      const values = [question];
+      const query = "INSERT INTO anonymous (question, answer) VALUE (?,?)"
+      const values = [question, answer];
 
       await pool.query(query, values);
       res.status(200).json({ message: "Question added successfully", question: question });
