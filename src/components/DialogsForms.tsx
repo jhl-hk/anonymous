@@ -9,25 +9,30 @@ interface DialogFormsProps {
 }
 
 export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
-  const [question, setQuestion] = useState<string | null>(null);
+  const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
 
-  // Fetch data when id changes
   useEffect(() => {
-    if (isOpen) {  // 确保在 Dialog 打开时才加载数据
-      if (id === 0) {
-        setQuestion(null);
-        setAnswer("");
-      } else {
-        fetch(`/api/question/${id}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setQuestion(data.question || "");
-            setAnswer(data.answer || "");
-          })
-          .catch((error) => console.error("Failed to fetch question:", error));
+    const fetchData = async () => {
+      if (isOpen) { // Check if the dialog is open
+        if (id === 0) {
+          setQuestion(null);
+          setAnswer("");
+        } else {
+          try {
+            const response = await fetch(`/api/question/${id}`);
+            const data = await response.json();
+            const { question, answer } = data[0];
+            setQuestion(question || "");
+            setAnswer(answer || "");
+          } catch (error) {
+            console.error("Error fetching data: ", error);
+          }
+        }
       }
-    }
+    };
+
+    fetchData();
   }, [id, isOpen]);
 
   // Submit the data
@@ -48,7 +53,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
 
       alert("Data submitted successfully!");
       onClose();
-      // reload
+      // Optionally reload the page
       window.location.reload();
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -86,7 +91,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
                   </label>
                   <div className="mt-2">
                     <input
-                      value={question || ""}
+                      value={question}
                       onChange={(e) => setQuestion(e.target.value)}
                       type="text"
                       placeholder="Enter your question"
