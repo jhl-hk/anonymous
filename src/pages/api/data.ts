@@ -37,14 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // UPDATE
   } else if (req.method === "PUT") {
     try {
-      const {id, answer} = req.body;
+      const {id, answer, question} = req.body;
 
-      if (!id || !answer) {
+      if (!id || !question) {
         return res.status(400).json({message: "Missing required fields"});
       }
 
-      const query = "UPDATE anonymous SET answer = ? WHERE id = ?"
-      const values = [answer, id];
+      const query = "UPDATE anonymous SET answer = ?, question = ? WHERE id = ?"
+      const values = [answer, question, id];
 
       await pool.query(query, values);
       res.status(200).json({message: "Answer Updated", id: id})
