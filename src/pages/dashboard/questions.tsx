@@ -2,6 +2,7 @@
 
 import DashFrame from "@/components/DashFrame";
 import {useEffect, useState} from "react";
+import DialogsForms from "@/components/DialogsForms";
 
 export default function Questions() {
   const [question, setQuestion] = useState<any[]>([]);
@@ -19,6 +20,18 @@ export default function Questions() {
 
     fetchData();
   }, []);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState<{ id: string; question: string }>({
+    id: "",
+    question: "",
+  });
+
+  // 点击按钮，打开对话框并传递数据
+  const openDialog = (id: number, question: string) => {
+    setSelectedData({ id });
+    setIsDialogOpen(true);
+  };
 
   return (
     <DashFrame>
@@ -65,9 +78,13 @@ export default function Questions() {
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{data.answer}</td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit<span className="sr-only">, {data.question}</span>
-                        </a>
+                        <button
+                          type="button"
+                          onClick={() => openDialog(data.id)}
+                          className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          Edit
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -78,6 +95,13 @@ export default function Questions() {
           </div>
         </div>
       </div>
+
+      <DialogsForms
+        id={selectedData.id}
+        question={selectedData.question}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
     </DashFrame>
   )
 }
