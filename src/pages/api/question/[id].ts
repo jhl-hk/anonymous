@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ message: "Question not found" });
       }
 
-      res.status(200).json(data);
+      res.status(200).json(data[0]);
     } catch (error) {
       console.error(error);
       res.status(500).json({message: "Internal Server Error"});
