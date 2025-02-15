@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color: lightgray;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+      --color: lightgray;
+  }
+}
+
+body {
+    background: var(--color);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    color: gray;
+}
+
+a:hover {
+    color: cornflowerblue;
+}
