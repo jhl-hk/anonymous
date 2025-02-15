@@ -42,22 +42,41 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
       return;
     }
 
-    try {
-      const response = await fetch("/api/data", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: id, question: question, answer: answer || null }),
-      });
+    if (id === 0) {
+      try {
+        const response = await fetch(`/api/data`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({question: question, answer: answer || null}),
+        })
 
-      if (!response.ok) throw new Error("Failed to submit data");
+        if (!response.ok) throw new Error ("Fail to submit data");
 
-      alert("Data submitted successfully!");
-      onClose();
-      // Optionally reload the page
-      window.location.reload();
-    } catch (error) {
-      console.error("Error submitting data:", error);
-      alert("Error submitting answer.");
+        alert("Data submitted successfully.");
+        onClose();
+        window.location.reload();
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+        alert("Fail to submit data");
+      }
+    } else if (id !== 0) {
+      try {
+        const response = await fetch("/api/data", {
+          method: "PUT",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({id: id, question: question, answer: answer || null}),
+        });
+
+        if (!response.ok) throw new Error("Failed to submit data");
+
+        alert("Data submitted successfully!");
+        onClose();
+        // Optionally reload the page
+        window.location.reload();
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        alert("Error submitting answer.");
+      }
     }
   };
 
