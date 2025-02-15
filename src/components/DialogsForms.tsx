@@ -22,7 +22,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
           try {
             const response = await fetch(`/api/question/${id}`);
             const data = await response.json();
-            const { question, answer } = data[0];
+            const { question, answer } = data;
             setQuestion(question || "");
             setAnswer(answer || "");
           } catch (error) {
@@ -119,8 +119,14 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
                   onClick={handleSubmit}
                   className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                 >
-                  <CheckCircleIcon aria-hidden="true" className="-ml-0.5 size-5" />
+                  <CheckCircleIcon aria-hidden="true" className="-ml-0.5 size-5"/>
                   Submit
+                </button>
+                <button
+                  onClick={onClose}
+                  className="rounded-md bg-white ml-2 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                >
+                  Cancel
                 </button>
               </div>
             </div>
