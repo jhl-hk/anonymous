@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import {useEffect, useState} from "react";
+import {Dialog, DialogBackdrop, DialogPanel, DialogTitle} from "@headlessui/react";
+import {CheckCircleIcon} from "@heroicons/react/20/solid";
 
 interface DialogFormsProps {
   id: number;
@@ -8,7 +8,7 @@ interface DialogFormsProps {
   onClose: () => void;
 }
 
-export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
+export default function DialogForms({id, isOpen, onClose}: DialogFormsProps) {
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
 
@@ -22,7 +22,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
           try {
             const response = await fetch(`/api/question/${id}`);
             const data = await response.json();
-            const { question, answer } = data;
+            const {question, answer} = data;
             setQuestion(question || "");
             setAnswer(answer || "");
           } catch (error) {
@@ -50,7 +50,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
           body: JSON.stringify({question: question, answer: answer || null}),
         })
 
-        if (!response.ok) throw new Error ("Fail to submit data");
+        if (!response.ok) throw new Error("Fail to submit data");
 
         alert("Data submitted successfully.");
         onClose();
@@ -82,10 +82,11 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-10">
-      <DialogBackdrop className="fixed inset-0 bg-gray-500/75" />
+      <DialogBackdrop className="fixed inset-0 bg-gray-500/75"/>
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-6 py-5 text-left shadow-xl sm:w-full sm:max-w-lg">
+          <DialogPanel
+            className="relative transform overflow-hidden rounded-lg bg-white px-6 py-5 text-left shadow-xl sm:w-full sm:max-w-lg">
             <div>
               <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                 Answer the Question
@@ -143,8 +144,7 @@ export default function DialogForms({ id, isOpen, onClose }: DialogFormsProps) {
                 </button>
                 <button
                   onClick={onClose}
-                  className="rounded-md bg-white ml-2 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                >
+                  className="rounded-md bg-white px-3 py-2 ml-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                   Cancel
                 </button>
               </div>
