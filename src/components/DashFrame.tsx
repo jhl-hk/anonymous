@@ -4,7 +4,6 @@ import {
   Bars3Icon,
   BellIcon,
   Cog6ToothIcon,
-  HomeIcon,
   QuestionMarkCircleIcon,
   XMarkIcon
 } from "@heroicons/react/24/outline";
@@ -29,8 +28,7 @@ export default function DashFrame({children}: FrameProps) {
   const router = useRouter();
 
   const navigation = [
-    {name: 'Dashboard', href: '/dashboard', icon: HomeIcon, current: true},
-    {name: 'Questions', href: '/dashboard/questions', icon: QuestionMarkCircleIcon, current: false},
+    {name: 'Dashboard', href: '/dashboard', icon: QuestionMarkCircleIcon},
   ].map((item) => ({
     ...item,
     current: router.pathname === item.href, // Dynamically set 'current' based on route
