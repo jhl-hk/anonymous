@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {Dialog, DialogBackdrop, DialogPanel, DialogTitle} from "@headlessui/react";
-import {CheckCircleIcon} from "@heroicons/react/20/solid";
 
 interface DialogFormsProps {
   id: number;
@@ -80,6 +79,26 @@ export default function DialogForms({id, isOpen, onClose}: DialogFormsProps) {
     }
   };
 
+  // const handleDelete
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/data`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({id}),
+      })
+
+      if (!response.ok) throw new Error("Fail to submit data");
+
+      alert("Data submitted successfully!");
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      alert("Error deleting question");
+    }
+  }
+
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-10">
       <DialogBackdrop className="fixed inset-0 bg-gray-500/75"/>
@@ -133,19 +152,19 @@ export default function DialogForms({id, isOpen, onClose}: DialogFormsProps) {
                   </div>
                 </li>
               </ul>
-              {/* Submit Button */}
+              {/* Buttons */}
               <div className="mt-4 flex justify-end">
                 <button
                   onClick={handleSubmit}
                   className="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
                 >
-                  <CheckCircleIcon aria-hidden="true" className="-ml-0.5 size-5"/>
                   Submit
                 </button>
                 <button
-                  onClick={onClose}
-                  className="rounded-md bg-white px-3 py-2 ml-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                  Cancel
+                  onClick={handleDelete}
+                  className="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 ml-2 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
+                >
+                  Delete
                 </button>
               </div>
             </div>

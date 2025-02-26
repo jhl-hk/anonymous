@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import Header from '@/components/Header'
 
 export default function Index() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<never[]>([]);
   const [question, setQuestion] = useState<string>("");
 
   useEffect(() => {
