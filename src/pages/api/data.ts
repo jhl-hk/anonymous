@@ -1,7 +1,54 @@
 import {NextApiRequest, NextApiResponse} from 'next';
 import pool from "@/lib/db";
+import {getServerSession} from "next-auth/next"
+import {authOptions} from "@/pages/api/auth/[...nextauth]"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Fetch session
+  const session = await getServerSession(req, res, authOptions);
+
+  // Method GET (Get all the data)
+  if (req.method === 'GET') {
+    try {
+      // Query data from SQL
+      const [data] = await pool.query("SELECT * FROM anonymous")
+      // Output data from SQL
+      res.status(200).json({
+        status: 200,
+        data,
+      })
+    // If error occurs
+    } catch (error) {
+      // Return error message
+      res.status(500).json({
+        status: 500,
+        message: 'Internal Server Error'
+      })
+    }
+  } else {
+  // Judge if the user authorized
+    if (session) {
+      // Authorized
+      
+    } else {
+      // Judge if method is POST / PUT / DELETE
+      if (req.method === "POST" || req.method === "PUT" || req.method === "DELETE") {
+        // Return Not Authorized
+        res.status(401).json({
+          status: 401,
+          message: 'Not Authorized'
+        })
+      } else {
+        // Return Method Not Allow
+        res.status(405).json({
+          status: 405,
+          message: 'Method Not Allowed'
+        })
+      }
+    }
+  }
+
+  /*
   // GET DATA
   if (req.method === "GET") {
     try {
@@ -75,4 +122,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } else {
     res.status(405).json({status: 405, message: "Method doesn't allow"});
   }
+    */
 }

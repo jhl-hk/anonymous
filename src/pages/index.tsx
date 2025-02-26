@@ -3,6 +3,7 @@
 import {CheckCircleIcon} from '@heroicons/react/20/solid'
 import Footer from '@/components/Footer'
 import {useEffect, useState} from "react";
+import Header from '@/components/Header'
 
 export default function Index() {
   const [data, setData] = useState<any[]>([]);
@@ -47,7 +48,7 @@ export default function Index() {
 
   return (
     <div className="bg-gray-100">
-      {/* Content */}
+      <Header />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl pt-8">
           <div className="relative">
@@ -78,7 +79,6 @@ export default function Index() {
         </div>
 
         <div className="mx-auto max-w-3xl">
-          {/* Question and Answers */}
           <ul role="list" className="divide-y divide-gray-200">
             {data.map((data: { question: string; answer: string }) => (
               <li key={data.question} className="py-6">
@@ -94,7 +94,6 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer/>
     </div>
   )

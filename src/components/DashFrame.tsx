@@ -13,6 +13,8 @@ import {useRouter} from "next/router";
 import Footer from "@/components/Footer";
 import Logo from "@/image/logo.png"
 import Image from "next/image";
+import { signOut } from "next-auth/react"
+import Link from "next/link";
 
 interface FrameProps {
   children: ReactNode;
@@ -71,7 +73,7 @@ export default function DashFrame({children}: FrameProps) {
                     <ul role="list" className="-mx-2 space-y-1">
                       {navigation.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             href={item.href}
                             className={classNames(
                               item.current
@@ -88,13 +90,13 @@ export default function DashFrame({children}: FrameProps) {
                               )}
                             />
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
                   </li>
                   <li className="mt-auto">
-                    <a
+                    <Link
                       href="#"
                       className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                     >
@@ -103,7 +105,7 @@ export default function DashFrame({children}: FrameProps) {
                         className="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                       />
                       Settings
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -152,8 +154,8 @@ export default function DashFrame({children}: FrameProps) {
                 </ul>
               </li>
               <li className="mt-auto">
-                <a
-                  href="#"
+                <button
+                  onClick={() => signOut({callbackUrl: '/'})}
                   className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                 >
                   <ArrowRightStartOnRectangleIcon
@@ -161,7 +163,7 @@ export default function DashFrame({children}: FrameProps) {
                     className="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                   />
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
