@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data,
       })
     // If error occurs
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Return error message
       res.status(500).json({

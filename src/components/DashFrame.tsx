@@ -15,6 +15,7 @@ import Logo from "@/image/logo.png"
 import Image from "next/image";
 import { signOut } from "next-auth/react"
 import Link from "next/link";
+import {useSession} from "next-auth/react";
 
 interface FrameProps {
   children: ReactNode;
@@ -25,6 +26,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function DashFrame({children}: FrameProps) {
+  const {data: session} = useSession();
+
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const router = useRouter();
@@ -208,12 +211,12 @@ export default function DashFrame({children}: FrameProps) {
               <span className="sr-only">Open user menu</span>
               <img
                 alt=""
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src={session.user.image}
                 className="size-8 rounded-full bg-gray-50"
               />
               <span className="hidden lg:flex lg:items-center">
                   <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
-                      Tom Cook
+                    {session.user.name}
                   </span>
                 </span>
             </div>
