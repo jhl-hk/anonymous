@@ -33,14 +33,11 @@ export default function DashFrame({children}: FrameProps) {
   const router = useRouter();
 
   const navigation = [
-    {name: 'Dashboard', href: '/dashboard', icon: QuestionMarkCircleIcon},
+    {name: 'Questions', href: '/dashboard', icon: QuestionMarkCircleIcon},
   ].map((item) => ({
     ...item,
     current: router.pathname === item.href, // Dynamically set 'current' based on route
   }));
-
-  // Default avatar placeholder if no image is available
-  const userImage = session?.user?.image || Logo; // You might need to create this placeholder
 
   return (
     <>
@@ -212,13 +209,6 @@ export default function DashFrame({children}: FrameProps) {
 
               {/* Profile */}
               <span className="sr-only">Open user menu</span>
-              <Image
-                alt="User Avatar"
-                src={userImage}
-                width={32}
-                height={32}
-                className="size-8 rounded-full bg-gray-50"
-              />
               <span className="hidden lg:flex lg:items-center">
                   <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
                     {session?.user?.name || 'User'}
