@@ -30,3 +30,11 @@ npm i
 ```
 
 Access to /api/setup to setup the database.
+
+
+## Deploy
+
+```bash
+docker build -t anonymous .
+docker run -p 3000:3000 anonymous
+```
