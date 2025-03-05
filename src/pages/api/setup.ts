@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import {NextApiRequest, NextApiResponse} from "next";
 import pool from "@/lib/db";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "GET") {
-    return res.status(405).json({ status: 405, message: "Method not allowed" });
+    return res.status(405).json({status: 405, message: "Method not allowed"});
   }
 
   try {
@@ -13,15 +13,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const createTableQuery = `
       CREATE TABLE IF NOT EXISTS anonymous (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        question VARCHAR(100) NOT NULL,
-        answer VARCHAR(1000),
+        question TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+        answer TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
         time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `;
 
     await pool.query(createTableQuery);
-    res.status(200).json({ status: 200, message: "Anonymous table generated" });
+    res.status(200).json({status: 200, message: "Anonymous table generated"});
   } catch (error) {
-    res.status(500).json({ status: 500, message: "Error", error });
+    res.status(500).json({status: 500, message: "Error", error});
   }
 }
