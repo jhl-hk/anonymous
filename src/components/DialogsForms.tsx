@@ -15,7 +15,7 @@ export default function DialogForms({id, isOpen, onClose}: DialogFormsProps) {
     const fetchData = async () => {
       if (isOpen) { // Check if the dialog is open
         if (id === 0) {
-          setQuestion(null);
+          setQuestion(""); // Changed from null to empty string to match the type
           setAnswer("");
         } else {
           try {

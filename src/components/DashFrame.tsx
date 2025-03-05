@@ -209,14 +209,14 @@ export default function DashFrame({children}: FrameProps) {
 
               {/* Profile */}
               <span className="sr-only">Open user menu</span>
-              <img
+              <Image
                 alt=""
-                src={session.user.image}
+                src={session?.user?.image}
                 className="size-8 rounded-full bg-gray-50"
               />
               <span className="hidden lg:flex lg:items-center">
                   <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
-                    {session.user.name}
+                    {session?.user?.name}
                   </span>
                 </span>
             </div>

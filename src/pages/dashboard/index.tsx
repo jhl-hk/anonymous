@@ -6,11 +6,19 @@ import DialogsForms from "@/components/DialogsForms";
 import {useSession} from "next-auth/react"
 import NotAuthorized from "@/components/NotAuthorized";
 
+// Define a proper type for the question data
+interface QuestionData {
+  id: number; // Changed from string to number to match DialogsForms expectations
+  question: string;
+  answer: string;
+}
+
 export default function Dashboard() {
-  // Query sesson status
+  // Query session status
   const {data: session} = useSession()
 
-  const [question, setQuestion] = useState<any[]>([]);
+  // Use the proper type instead of any
+  const [question, setQuestion] = useState<QuestionData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,14 +35,15 @@ export default function Dashboard() {
   }, []);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState<{ id: string; question: string }>({
-    id: "",
-    question: "",
+  const [selectedData, setSelectedData] = useState<{ id: number }>({
+    id: 0
   });
 
-  // 点击按钮，打开对话框并传递数据
-  const openDialog = (id: number) => {
-    setSelectedData({ id });
+  // Open dialog and pass data
+  const openDialog = (id: number | string) => {
+    // Convert string id to number if needed
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    setSelectedData({ id: numericId });
     setIsDialogOpen(true);
   };
 
@@ -78,7 +87,7 @@ export default function Dashboard() {
                     </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                    {question.map((data: { id: string; question: string; answer: string }) => (
+                    {question.map((data) => (
                       <tr key={data.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                           {data.question}
@@ -87,7 +96,7 @@ export default function Dashboard() {
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           <button
                             type="button"
-                            onClick={() => openDialog(data.id)}
+                            onClick={() => openDialog(Number(data.id))}
                             className="rounded bg-indigo-600 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                           >
                             Edit
@@ -102,10 +111,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-  
+
         <DialogsForms
           id={selectedData.id}
-          question={selectedData.question}
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
         />

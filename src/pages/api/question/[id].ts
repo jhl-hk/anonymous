@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import pool from "@/lib/db";
+import {RowDataPacket} from "mysql2";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // get query id
@@ -8,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       const query = "SELECT * FROM anonymous WHERE id = ?";
-      const [data]: any = await pool.query(query, [id]);
+      const [data] = await pool.query<RowDataPacket[]>(query, [id]);
 
       if (data.length === 0) {
         return res.status(404).json({ message: "Question not found" });
