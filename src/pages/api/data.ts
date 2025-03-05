@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(200).json({message: "Question added successfully", question: question});
       }
 
-      const query = "INSERT INTO anonymous (question) VALUE (?,?)"
+      const query = "INSERT INTO anonymous (question) VALUE (?)"
       const values = [question];
 
       await pool.query(query, values);
