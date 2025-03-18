@@ -5,7 +5,7 @@
 - TAILWINDCSS
 - TAILWINDUI
 - HEADLESSUI
-- MYSQL
+- PRISMA
 
 ## Quick Start
 
